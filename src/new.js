@@ -5,7 +5,7 @@
 //   }
 // }
 
-class Stack {
+class Queue {
   constructor() {
       this.head = null;
       this.length = 0;
@@ -17,8 +17,8 @@ class Stack {
     return this.length;
 }
 
-  push(element) {
-    let node = {element, next: null}; //creating the node using class Node
+  push(value) {
+    let node = {value, next: null}; //creating the node using class Node
 
     if (this.length === 0) {
         this.head = node; // If there are no nodes 
@@ -30,11 +30,40 @@ class Stack {
             current = current.next;
         }
 
-        current.next = {element, next: null};
+        current.next = {value, next: null};
     }
 
     this.length++;
   }
+
+  insertInPosition(position, value) {
+    if (position < 0 || position > this.length) { // returns the warning message 
+                                             // if incorrect position was specified
+        return 'Incorrect value of position';
+    }
+
+    let node = {value, next: null}; // creates the node using class Node
+
+    if (position === 0) { 
+        node.next = this.head; 
+        this.head = node;
+    } else {
+        let current = this.head;
+        let prev = null;
+        let index = 0;
+
+        while (index < position) {
+            prev = current;
+            current = current.next;
+            index++;
+        }
+
+        prev.next = node;
+        node.next = current;
+    }
+
+    this.length++;
+}
 
   getNodeByPosition(position) {
     if (position < 0 || position > this.length) { // verification of the specified position value
@@ -49,7 +78,7 @@ class Stack {
         index++; // increaments the index
     }
 
-    return current.element;
+    return current.value;
   }
 
   removeFromPosition(position) {
@@ -75,7 +104,7 @@ class Stack {
     }
 
     this.length--;
-    return current.element;
+    return current.value;
   }
   
   peek() {
@@ -88,6 +117,19 @@ class Stack {
     return beforePop
   }
 
+  enqueue(value) {
+    this.insertInPosition(this.getLength(), value);
+  }
+
+  dequeue() {
+    const beforePop = this.getNodeByPosition(0)
+    this.removeFromPosition(0)
+    return beforePop
+  }
+
+  getUnderlyingList() {
+    return this.head
+  }
 
 
 }
@@ -144,11 +186,13 @@ class Stack {
 //   }
 // }
 
-  const stack = new Stack();
-  console.log(stack.push(5))
-  console.log(stack.push(6))
-  console.log(stack.push(7))
-  console.log(stack.peek())
-  console.log(stack.pop())
-  console.log(stack.peek())
-  console.log(stack)
+  const queue = new Queue();
+  console.log(queue.enqueue(5))
+  console.log(queue.enqueue(6))
+  console.log(queue.enqueue(7))
+
+  console.log(queue.dequeue())
+  console.log(queue.dequeue())
+  console.log(queue.getUnderlyingList())
+
+  console.log(queue)
