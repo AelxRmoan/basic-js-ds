@@ -1,19 +1,11 @@
-const { NotImplementedError } = require('../extensions/index.js');
+// class Node {
+//   constructor(value) {
+//       this.value = value;
+//       this.next = null;
+//   }
+// }
 
-/**
- * Implement the Stack with a given interface via array.
- *
- * @example
- * const stack = new Stack();
- *
- * stack.push(1); // adds the element to the stack
- * stack.peek(); // returns the peek, but doesn't delete it, returns 1
- * stack.pop(); // returns the top element from stack and deletes it, returns 1
- * stack.pop(); // undefined
- *
- */
-
- module.exports = class Stack {
+class Stack {
   constructor() {
       this.head = null;
       this.length = 0;
@@ -99,9 +91,64 @@ const { NotImplementedError } = require('../extensions/index.js');
 
 
 }
+// class Stack {
+//   constructor(){
+//     this.head = null;
+//   }
+//   push(element) {
+//     const node = {element, next:this.head}
+//     this.head = node;
+//     console.log(this.head)
+//    }
+  
 
+//   peek() {
+//     console.log(this.head.element)
+//     return this.head.element;
+//   } 
 
+//   pop() {
+//     let tailVar = this.head;
+//     let node = this.head;
+//     const findBeforeLast = () => {
+//       while(node){
+//         console.log(node)
+//         if (node.next === undefined)
+//         return node
+//       }
+//       console.log(node)
+//     };
 
+//     if(this.head === undefined){
+//       findBeforeLast()
+//       console.log(node);
+//       return this.head = node 
+//     } else {
+//       this.head = undefined
+//       console.log(tailVar.element);
+//       return tailVar.element
+//     }
+//   }
 
+//   first() {
+//     if (!this.head) {
+//     return null;
+//     }
+//     let node = this.head;
+//     while (node) {
+//      if (!node.next) {
+//       return node;
+//      }
+//     node = node.next; 
+//    }
+//   }
+// }
 
-
+  const stack = new Stack();
+  console.log(stack.push(5))
+  console.log(stack.push(6))
+  console.log(stack.push(7))
+  console.log(stack.peek())
+  console.log(stack.pop())
+  console.log(stack.peek())
+  console.log(stack)
