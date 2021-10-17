@@ -23,7 +23,7 @@ const { NotImplementedError } = require('../extensions/index.js');
   
   getLength() {
     return this.length;
-}
+  }
 
   push(element) {
     let node = {element, next: null}; //creating the node using class Node

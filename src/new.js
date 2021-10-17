@@ -5,132 +5,202 @@
 //   }
 // }
 
-class Queue {
+class BinarySearchTree {
   constructor() {
-      this.head = null;
-      this.length = 0;
+      this.root = null;
   }
 
 
+  add(data) {
   
-  getLength() {
-    return this.length;
+    let node = {data, left: null, right: null};
+                     
+    // root is null then node will
+    // be added to the tree and made root.
+    if(this.root === null)
+        this.root = node;
+    else
+ 
+        // find the correct position in the
+        // tree and add the node
+        this.insertNode(this.root, node);  
+  }
+
+
+  insertNode(node, newNode) {
+    if(newNode.data < node.data)
+    {
+        // if left is null insert node here
+        if(node.left === null)
+            node.left = newNode;
+        else
+ 
+            // if left is not null recur until
+            // null is found
+            this.insertNode(node.left, newNode);
+    }
+ 
+    // if the data is more than the node
+    // data move right of the tree
+    else
+    {
+        // if right is null insert node here
+        if(node.right === null)
+            node.right = newNode;
+        else
+ 
+            // if right is not null recur until
+            // null is found
+            this.insertNode(node.right,newNode);
+    }
+  }
+
+
+
+  has(data) {
+    if (this.search(this.root, data) === null) {
+      return false
+    } else {
+      return true
+    }
+  }
+
+  search(node, data)
+{
+   // if trees is empty return null
+    if(node === null)
+        return null;
+ 
+    // if data is less than node's data
+    // move left
+    else if(data < node.data)
+        return this.search(node.left, data);
+ 
+    // if data is less than node's data
+    // move left
+    else if(data > node.data)
+        return this.search(node.right, data);
+ 
+    // if data is equal to the node data
+    // return node
+    else
+        return node;
 }
 
-  push(value) {
-    let node = {value, next: null}; //creating the node using class Node
-
-    if (this.length === 0) {
-        this.head = node; // If there are no nodes 
-        // node variable will be the first and head node in the list
-    } else {
-        let current = this.head;
-
-        while(current.next) {
-            current = current.next;
-        }
-
-        current.next = {value, next: null};
-    }
-
-    this.length++;
+  find(data) {
+    return this.search(this.root, data)
   }
 
-  insertInPosition(position, value) {
-    if (position < 0 || position > this.length) { // returns the warning message 
-                                             // if incorrect position was specified
-        return 'Incorrect value of position';
-    }
 
-    let node = {value, next: null}; // creates the node using class Node
 
-    if (position === 0) { 
-        node.next = this.head; 
-        this.head = node;
-    } else {
-        let current = this.head;
-        let prev = null;
-        let index = 0;
-
-        while (index < position) {
-            prev = current;
-            current = current.next;
-            index++;
-        }
-
-        prev.next = node;
-        node.next = current;
-    }
-
-    this.length++;
+  // helper method that calls the
+// removeNode with a given data
+remove(data)
+{
+    // root is re-initialized with
+    // root of a modified tree.
+  this.root = this.removeNode(this.root, data);
 }
-
-  getNodeByPosition(position) {
-    if (position < 0 || position > this.length) { // verification of the specified position value
-        return 'Incorrect value of position';
+ 
+// Method to remove node with a
+// given data
+// it recur over the tree to find the
+// data and removes it
+removeNode(node, key)
+{
+         
+    // if the root is null then tree is
+    // empty
+    if(node === null)
+        return null;
+ 
+    // if data to be delete is less than
+    // roots data then move to left subtree
+    else if(key < node.data)
+    {
+        node.left = this.removeNode(node.left, key);
+        return node;
     }
-
-    let current = this.head; // the head of the list
-    let index = 0; // the index for incrementation
-
-    while(index < position) {  // goes through each node until the index reaches the position
-        current = current.next; // moves the link to the next node of the current node
-        index++; // increaments the index
+ 
+    // if data to be delete is greater than
+    // roots data then move to right subtree
+    else if(key > node.data)
+    {
+        node.right = this.removeNode(node.right, key);
+        return node;
     }
-
-    return current.value;
-  }
-
-  removeFromPosition(position) {
-    if (position < 0 || position > this.length) { //verification on correct value of position like in the insertInPosition and getNodeByPosition
-        return 'Incorrect value of position';
-    }
-
-    let current = this.head; // now current is the head of the Linked List
-
-    if (position === 0) {
-        this.head = current.next;
-    } else {
-        let prev = null;
-        let index = 0;
-
-        while(index < position) {
-            prev = current;
-            current = current.next;
-            index++;
+ 
+    // if data is similar to the root's data
+    // then delete this node
+    else
+    {
+         // deleting node with no children
+        if(node.left === null && node.right === null)
+        {
+            node = null;
+            return node;
         }
-
-        prev.next = current.next; 
+ 
+        // deleting node with one children
+        if(node.left === null)
+        {
+            node = node.right;
+            return node;
+        }
+         
+        else if(node.right === null)
+        {
+            node = node.left;
+            return node;
+        }
+ 
+        // Deleting node with two children
+        // minimum node of the right subtree
+        // is stored in aux
+        var aux = this.findMinNode(node.right);
+        node.data = aux.data;
+ 
+        node.right = this.removeNode(node.right, aux.data);
+        return node;
     }
+ 
+ }
 
-    this.length--;
-    return current.value;
+
+
+
+
+
+
+
+
+
+
+  findMinNode(node){
+    // if left of a node is null
+    // then it must be minimum node
+    if(node.left === null)
+        return node.data;
+    else
+        return this.findMinNode(node.left);
   }
-  
-  peek() {
-    return this.getNodeByPosition(this.getLength() - 1)
+  findMaxNode(node){
+    // if left of a node is null
+    // then it must be minimum node
+    if(node.right === null)
+        return node.data;
+    else
+        return this.findMaxNode(node.right);
   }
 
-  pop() {
-    const beforePop = this.getNodeByPosition(this.getLength() - 1)
-    this.removeFromPosition(this.getLength() - 1)
-    return beforePop
+  min() {
+    return this.findMinNode(this.root)
   }
 
-  enqueue(value) {
-    this.insertInPosition(this.getLength(), value);
-  }
 
-  dequeue() {
-    const beforePop = this.getNodeByPosition(0)
-    this.removeFromPosition(0)
-    return beforePop
+  max() {
+    return this.findMaxNode(this.root)
   }
-
-  getUnderlyingList() {
-    return this.head
-  }
-
 
 }
 // class Stack {
@@ -186,13 +256,15 @@ class Queue {
 //   }
 // }
 
-  const queue = new Queue();
-  console.log(queue.enqueue(5))
-  console.log(queue.enqueue(6))
-  console.log(queue.enqueue(7))
+  const instance = new BinarySearchTree();
+  console.log(instance.add(5))
+  console.log(instance.add(1))
+  console.log(instance.add(3))
+  console.log(instance.add(6))
+  console.log(instance.add(8))
+  console.log(instance.min())
 
-  console.log(queue.dequeue())
-  console.log(queue.dequeue())
-  console.log(queue.getUnderlyingList())
+  console.log(instance)
 
-  console.log(queue)
+
+

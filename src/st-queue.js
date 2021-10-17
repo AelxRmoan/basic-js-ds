@@ -23,25 +23,6 @@ module.exports = class Queue {
   
   getLength() {
     return this.length;
-}
-
-  push(value) {
-    let node = {value, next: null}; //creating the node using class Node
-
-    if (this.length === 0) {
-        this.head = node; // If there are no nodes 
-        // node variable will be the first and head node in the list
-    } else {
-        let current = this.head;
-
-        while(current.next) {
-            current = current.next;
-        }
-
-        current.next = {value, next: null};
-    }
-
-    this.length++;
   }
 
   insertInPosition(position, value) {
@@ -71,7 +52,7 @@ module.exports = class Queue {
     }
 
     this.length++;
-}
+  }
 
   getNodeByPosition(position) {
     if (position < 0 || position > this.length) { // verification of the specified position value
@@ -115,16 +96,6 @@ module.exports = class Queue {
     return current.value;
   }
   
-  peek() {
-    return this.getNodeByPosition(this.getLength() - 1)
-  }
-
-  pop() {
-    const beforePop = this.getNodeByPosition(this.getLength() - 1)
-    this.removeFromPosition(this.getLength() - 1)
-    return beforePop
-  }
-
   enqueue(value) {
     this.insertInPosition(this.getLength(), value);
   }
